@@ -2,8 +2,11 @@
 @{
     ViewData["Title"] = "Branches";
     var currentPage = 1;
-
-
+    BranchesModel deleteingObj = new BranchesModel();
+    void SetDeletingObject(BranchesModel obj)
+    {
+        deleteingObj = obj;
+    }
 }
 <h1>@ViewData["Title"]</h1>
 <div class=" d-flex justify-content-end">
@@ -32,7 +35,7 @@
                 <td>@branch.ClosingHour</td>
                 <td>@branch.WorkingHours</td>
                 <td>
-                    <button type="button" date-object="@branch" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletingModal">
+                    <button type="button" onclick="@{SetDeletingObject(branch);}" date-object="@branch" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletingModal">
                         Delete
                     </button>
                 </td>
@@ -55,7 +58,7 @@
             for (int i = 0; i < Model.totalPages; i++)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Branches" asp-action="ListBranches" asp-route-pageNumber="@(i + 1)">@(i + 1)</a>
+                    <a class="page-link"  asp-controller="Branches" asp-action="ListBranches" asp-route-pageNumber="@(i + 1)">@(i + 1)</a>
                 </li>
             }
         }
@@ -70,22 +73,3 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="DeletingModal" tabindex="-1" aria-labelledby="Deleting Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete the branch?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-              
-                <a class="page-link" asp-controller="Branches" asp-action="DeleteBranch" asp-route-Id="1" method="delete">Yes</a>
-            </div>
-        </div>
-    </div>
-</div>
