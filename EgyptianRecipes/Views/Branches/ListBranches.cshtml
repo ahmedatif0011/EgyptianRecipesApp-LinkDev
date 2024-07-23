@@ -83,7 +83,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" asp-controller="Branches"  asp-action="DeleteBranch" asp asp-route-Id="1">Yes</button>
+              
+                <a class="page-link" asp-controller="Branches" asp-action="DeleteBranch" asp-route-Id="1" method="delete">Yes</a>
             </div>
         </div>
     </div>

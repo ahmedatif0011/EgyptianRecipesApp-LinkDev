@@ -223,11 +223,12 @@ namespace EgyptianRecipes.Controllers
             return View(dto);
             
         }
-        [HttpDelete(nameof(DeleteBranch))]
-        public IActionResult DeleteBranch([FromQuery]int Id)
+        //[HttpDelete(nameof(DeleteBranch))]
+        public IActionResult DeleteBranch([FromRoute]int Id)
         {
-            branches.Remove(branches.FirstOrDefault(c => c.Id == Id));
-            return View();
+            var elemtForRemove = branches.FirstOrDefault(c => c.Id == Id);
+            branches.Remove(elemtForRemove);
+            return RedirectToAction(nameof(ListBranches));
         }
     }
 }
