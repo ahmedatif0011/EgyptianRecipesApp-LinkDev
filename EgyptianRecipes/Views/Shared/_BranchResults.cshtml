@@ -64,11 +64,21 @@ else
                         {
                             <td>
                                 <!-- Book Button -->
-                                <a type="button" 
-                                class="btn btn-primary"
-                                   asp-action="BookBranchPage"
-                                   asp-controller="Branches"
-                                   asp-route-Id="@branch.Id">@(branch.isBooked ? "Booked" : "Book")</a>
+                                @if (branch.isBooked)
+                                {
+                                    <button disabled type="button"
+                                            class="btn btn-primary">
+                                        Booked
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a type="button"
+                                       class="btn btn-primary"
+                                       asp-action="BookBranchPage"
+                                       asp-controller="Branches"
+                                       asp-route-Id="@branch.Id">Book</a>
+                                }
                             </td>
                         }
                     }

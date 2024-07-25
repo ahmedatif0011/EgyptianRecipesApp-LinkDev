@@ -119,10 +119,17 @@ namespace EgyptianRecipes.Controllers
                 return View("BookingPage", branches);
             }
             BookedBranches.Add(branches);
-            return RedirectToAction(nameof(ListBranches));
+            return RedirectToAction(nameof(ListBranches),new { type = 2 });
         }
         public async Task<IActionResult> BookBranchPage([FromRoute] int Id)
         {
+            var sessionId = HttpContext.TraceIdentifier;
+            if(BookedBranches.Any(c=> c.branchId == Id))
+            {
+                TempData["ErrorMessage"] = "This branch is booked!";
+                
+                return RedirectToAction(nameof(ListBranches),new {type=2});
+            }
             return View("BookingPage", new BookingBranch { branchId = Id });
         }
     }

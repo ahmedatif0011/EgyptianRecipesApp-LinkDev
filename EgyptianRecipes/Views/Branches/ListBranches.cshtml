@@ -39,6 +39,12 @@
     }
     else
     {
+        @if (TempData.Any(c => c.Key == "ErrorMessage"))
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <div id="results">
             @Html.Partial("_BranchResults", Model)
         </div>
