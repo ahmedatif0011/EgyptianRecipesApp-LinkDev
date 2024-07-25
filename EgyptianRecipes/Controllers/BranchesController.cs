@@ -54,7 +54,7 @@ namespace EgyptianRecipes.Controllers
             if (!ModelState.IsValid)
             {
                 // If the model is not valid, redisplay the form with validation errors
-                return View(request);
+                return View("BranchModify", new BranchesModel());
             }
             var dta = await _restfulAPIService.Call(new RestfulAPICallingDTO
             {

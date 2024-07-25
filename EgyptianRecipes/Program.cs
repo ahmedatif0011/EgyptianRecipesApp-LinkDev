@@ -1,7 +1,9 @@
+using EgyptianRecipes;
 using EgyptianRecipes.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddHttpClient();
+
+DIServices.AddApplicationDI(builder.Services);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

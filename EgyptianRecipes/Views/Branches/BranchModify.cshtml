@@ -1,7 +1,7 @@
 ﻿@model BranchesModel
 
 @{
-    if ((bool)ViewData["IsAdd"])
+    if (Model.Id == 0)
     {
         <h1>Add Branch</h1>
     }
@@ -16,34 +16,28 @@
 
         @using (Html.BeginForm("ModifyBranch", "Branch", FormMethod.Post, new { @id = "addBranchForm" }))
         {
-            <div class="form-group">
+            @Html.HiddenFor(c => c.Id)
+            ;
+            <div class="form-group col-lg-4 col-sm-8">
                 @Html.LabelFor(m => m.Title, new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @id = "branch-title" })
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-lg-4 col-sm-8">
                 @Html.LabelFor(m => m.ManagerName, new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.ManagerName, new { @class = "form-control", @id = "branch-ManagerName" })
                 <span asp-validation-for="ManagerName" class="text-danger"></span>
 
             </div>
-            <div class="row">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OpenningHour, new { @class = "col-form-label" })
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-5 mb-3 mb-sm-0">
-                            @Html.TextBoxFor(m => m.OpenningHour, new { @class = "form-control", @type = "time", @id = "openHour1" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ClosingHour, new { @class = "col-form-label" })
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-5 mb-3 mb-sm-0">
-                            @Html.TextBoxFor(m => m.ClosingHour, new { @class = "form-control", @type = "time", @id = "closeHour1" })
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group col-lg-4 col-sm-8">
+                @Html.LabelFor(m => m.OpenningHour, new { @class = "col-form-label" })
+                @Html.TextBoxFor(m => m.OpenningHour, new { @class = "form-control", @type = "time", @id = "openHour1" })
+                <span asp-validation-for="OpenningHour" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-4 col-sm-8">
+                @Html.LabelFor(m => m.ClosingHour, new { @class = "col-form-label" })
+                @Html.TextBoxFor(m => m.ClosingHour, new { @class = "form-control", @type = "time", @id = "closeHour1" })
+                <span asp-validation-for="ClosingHour" class="text-danger"></span>
             </div>
             <div class="modal-footer">
                 <a type="button" class="btn btn-secondary" asp-action="ListBranches" asp-controller="Branches">Close</a>
