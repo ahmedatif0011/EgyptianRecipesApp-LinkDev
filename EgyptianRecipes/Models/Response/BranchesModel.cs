@@ -10,10 +10,13 @@ namespace EgyptianRecipes.Models
         public TimeSpan OpenningHour { get; set; }
         public TimeSpan ClosingHour { get; set; }
         public TimeSpan WorkingHours { get; set; }
+        public bool isBooked { get; set; }
     }
     public class BranchDTO
     {
         public List<BranchesModel> data { get; set; }
         public int totalPages { get; set; }
+        public string? searchCriteria { get; set; }
+        public bool isBooking { get; set; } = false;
     }
 }

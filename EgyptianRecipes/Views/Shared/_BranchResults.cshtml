@@ -1,0 +1,97 @@
+﻿@model BranchDTO
+
+@if (!Model.data.Any())
+{
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <img src="/assets/images/NoDataFound.jpg" style="width: 58vh; height: 58vh;" />
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Manager Name</th>
+                <th scope="col">Opening Hour</th>
+                <th scope="col">Closing Hour</th>
+                <th scope="col">Working Hours</th>
+                @{
+                    if (!Model.isBooking)
+                    {
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    }
+                    else
+                    {
+                        <th scope="col">Book</th>
+                    }
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var branch in Model.data)
+            {
+                <tr>
+                    <th scope="row">@branch.Id</th>
+                    <td>@branch.Title</td>
+                    <td>@branch.ManagerName</td>
+                    <td>@branch.OpenningHour</td>
+                    <td>@branch.ClosingHour</td>
+                    <td>@branch.WorkingHours</td>
+                    @{
+                        if (!Model.isBooking)
+                        {
+                            <td>
+                                <!-- Edit Button -->
+                                <a type="button" class="btn btn-primary" asp-action="EditBranch" asp-controller="Branches" asp-route-Id="@branch.Id">Edit</a>
+                            </td>
+                            <td>
+                                <!-- Delete Button -->
+                                <button type="button"
+                                        data-id="@branch.Id"
+                                        data-title="@branch.Title"
+                                        class="btn btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#DeletingModal">
+                                    Delete
+                                </button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <!-- Book Button -->
+                                <button type="button"
+                                @(branch.isBooked ? "disabled" :"")
+                                        data-id="@branch.Id"
+                                        data-title="@branch.Title"
+                                        class="btn btn-success open-modal"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#BookingBranchModal">
+                                    @(branch.isBooked ? "Booked" : "Book")
+                                </button>
+                            </td>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                                $(document).ready(function () {
+                                    $('.open-modal').on('click', function () {
+                                        var itemId = $(this).data('id');
+                                        $('#itemId').val(itemId); // Set the value of the hidden input
+                                        $('#BookingBranchModal').modal('show'); // Show the modal
+                                    });
+                                });
+                            </script>
+                        }
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Partial("_PaginationPartialView", new PaginationModel { TotalPages = Model.totalPages })
+}
+
+

@@ -14,5 +14,11 @@ namespace EgyptianRecipes.Models.shared
             success = 1,
             noDataFound = 2
         }
+        public enum BranchPageType
+        {
+            Admin = 1,
+            Buyer = 2
+
+        }
     }
 }

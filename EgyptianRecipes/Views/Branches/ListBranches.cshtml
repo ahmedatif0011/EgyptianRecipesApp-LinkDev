@@ -1,6 +1,7 @@
-﻿@model BranchDTO
+﻿@using EgyptianRecipes.Models.Request
+@model BranchDTO
 @{
-    ViewData["Title"] = "Branches";
+    ViewData["Title"] = Model.isBooking ? "Book Branche": "Branches";
     BranchesModel _obj = new BranchesModel();
 
     void SelectedObject(BranchesModel obj)
@@ -11,9 +12,24 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<div class=" d-flex justify-content-end">
-    <a type="button" class="btn btn-primary" asp-action="AddBranch" asp-controller="Branches">Add Branch</a>
+<div class="row">
+    <div class="col-8">
+        <input type="text" id="searchCriteria" class="form-control" placeholder="Search with Title Or Manager Name..." />
+    </div>
+    <div class="col-2 d-flex align-items-center">
+        <button type="submit" class="btn btn-secondary mx-2" onclick="Search(1)"><i class="bi bi-search"></i></button>
+    </div>
+
+    @{
+        if (!Model.isBooking)
+        {
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a type="button" class="btn btn-primary ml-auto" asp-action="AddBranch" asp-controller="Branches">Add Branch</a>
+            </div>
+        }
+    }
 </div>
+
 @{
     if (!Model.data.Any())
     {
@@ -23,54 +39,26 @@
     }
     else
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Manager Name</th>
-                    <th scope="col">Opening Hour</th>
-                    <th scope="col">Closing Hour</th>
-                    <th scope="col">Working Hours</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var branch in Model.data)
-                {
-                    <tr>
-                        <th scope="row">@branch.Id</th>
-                        <td>@branch.Title</td>
-                        <td>@branch.ManagerName</td>
-                        <td>@branch.OpenningHour</td>
-                        <td>@branch.ClosingHour</td>
-                        <td>@branch.WorkingHours</td>
-                        <td>
-                            <!-- Edit Button -->
-                            <a type="button" class="btn btn-primary" asp-action="EditBranch" asp-controller="Branches" asp-route-Id="@branch.Id">
-                                Edit
-                            </a>
-                        </td>
-                        <td>
-                            <!-- Delete Button -->
-                            <button type="button" data-id="@branch.Id" data-title="@branch.Title" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletingModal">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @Html.Partial("_PaginationPartialView", new PaginationModel { TotalPages = Model.totalPages })
+        <div id="results">
+            @Html.Partial("_BranchResults", Model)
+        </div>
 
     }
-    
+
 }
 
-@Html.Partial("Modals/_DeletingModal")
+@if(Model.isBooking)
+{
+    @Html.Partial("Modals/_BookingBranchModal", new EgyptianRecipes.Models.Request.BookingBranch());
+}
+else
+{
+    @Html.Partial("Modals/_DeletingModal");
+}
+
+
+<script>
 
 
 
-
+</script>

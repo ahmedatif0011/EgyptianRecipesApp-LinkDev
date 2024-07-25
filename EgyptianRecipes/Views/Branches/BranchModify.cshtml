@@ -13,29 +13,28 @@
 }
 <div class="container">
     <form method="post" action="/Branches/ModifyBranch">
-
         @using (Html.BeginForm("ModifyBranch", "Branch", FormMethod.Post, new { @id = "addBranchForm" }))
         {
             @Html.HiddenFor(c => c.Id)
-            ;
-            <div class="form-group col-lg-4 col-sm-8">
-                @Html.LabelFor(m => m.Title, new { @class = "col-form-label" })
+            
+            <div class="form-group ">
+                @Html.LabelFor(m => m.Title,"Title", new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @id = "branch-title" })
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group col-lg-4 col-sm-8">
-                @Html.LabelFor(m => m.ManagerName, new { @class = "col-form-label" })
+            <div class="form-group ">
+                @Html.LabelFor(m => m.ManagerName,"Manager Name", new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.ManagerName, new { @class = "form-control", @id = "branch-ManagerName" })
                 <span asp-validation-for="ManagerName" class="text-danger"></span>
 
             </div>
-            <div class="form-group col-lg-4 col-sm-8">
-                @Html.LabelFor(m => m.OpenningHour, new { @class = "col-form-label" })
+            <div class="form-group ">
+                @Html.LabelFor(m => m.OpenningHour,"Opening Hour", new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.OpenningHour, new { @class = "form-control", @type = "time", @id = "openHour1" })
                 <span asp-validation-for="OpenningHour" class="text-danger"></span>
             </div>
-            <div class="form-group col-lg-4 col-sm-8">
-                @Html.LabelFor(m => m.ClosingHour, new { @class = "col-form-label" })
+            <div class="form-group ">
+                @Html.LabelFor(m => m.ClosingHour,"Closing Hour", new { @class = "col-form-label" })
                 @Html.TextBoxFor(m => m.ClosingHour, new { @class = "form-control", @type = "time", @id = "closeHour1" })
                 <span asp-validation-for="ClosingHour" class="text-danger"></span>
             </div>
