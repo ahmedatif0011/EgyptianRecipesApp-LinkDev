@@ -1,234 +1,85 @@
 ﻿using EgyptianRecipes.Models;
-using Microsoft.AspNetCore.Connections;
+using EgyptianRecipes.Models.Request;
+using EgyptianRecipes.Models.shared;
+using EgyptianRecipes.Services;
+using EgyptianRecipes.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace EgyptianRecipes.Controllers
 {
     public class BranchesController : Controller
     {
-        public static List<BranchesModel> branches = new List<BranchesModel>
+        private readonly IRestfulAPIService _restfulAPIService;
+        private static List<BranchesModel> Branches = new List<BranchesModel>();
+        public BranchesController(IRestfulAPIService restfulAPIService)
         {
-            new BranchesModel
-            {
-                Id = 1,
-                Title = "Downtown Branch",
-                ManagerName = "John Doe",
-                OpenningHour = new TimeSpan(9, 0, 0),
-                ClosingHour = new TimeSpan(17, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 2,
-                Title = "Uptown Branch",
-                ManagerName = "Jane Smith",
-                OpenningHour = new TimeSpan(8, 30, 0),
-                ClosingHour = new TimeSpan(16, 30, 0)
-            },
-            new BranchesModel
-            {
-                Id = 3,
-                Title = "Midtown Branch",
-                ManagerName = "Robert Brown",
-                OpenningHour = new TimeSpan(10, 0, 0),
-                ClosingHour = new TimeSpan(18, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 4,
-                Title = "Eastside Branch",
-                ManagerName = "Emily White",
-                OpenningHour = new TimeSpan(7, 0, 0),
-                ClosingHour = new TimeSpan(15, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 5,
-                Title = "Westside Branch",
-                ManagerName = "Michael Green",
-                OpenningHour = new TimeSpan(11, 0, 0),
-                ClosingHour = new TimeSpan(19, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 1,
-                Title = "Downtown Branch",
-                ManagerName = "John Doe",
-                OpenningHour = new TimeSpan(9, 0, 0),
-                ClosingHour = new TimeSpan(17, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 2,
-                Title = "Uptown Branch",
-                ManagerName = "Jane Smith",
-                OpenningHour = new TimeSpan(8, 30, 0),
-                ClosingHour = new TimeSpan(16, 30, 0)
-            },
-            new BranchesModel
-            {
-                Id = 3,
-                Title = "Midtown Branch",
-                ManagerName = "Robert Brown",
-                OpenningHour = new TimeSpan(10, 0, 0),
-                ClosingHour = new TimeSpan(18, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 4,
-                Title = "Eastside Branch",
-                ManagerName = "Emily White",
-                OpenningHour = new TimeSpan(7, 0, 0),
-                ClosingHour = new TimeSpan(15, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 5,
-                Title = "Westside Branch",
-                ManagerName = "Michael Green",
-                OpenningHour = new TimeSpan(11, 0, 0),
-                ClosingHour = new TimeSpan(19, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 1,
-                Title = "Downtown Branch",
-                ManagerName = "John Doe",
-                OpenningHour = new TimeSpan(9, 0, 0),
-                ClosingHour = new TimeSpan(17, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 2,
-                Title = "Uptown Branch",
-                ManagerName = "Jane Smith",
-                OpenningHour = new TimeSpan(8, 30, 0),
-                ClosingHour = new TimeSpan(16, 30, 0)
-            },
-            new BranchesModel
-            {
-                Id = 3,
-                Title = "Midtown Branch",
-                ManagerName = "Robert Brown",
-                OpenningHour = new TimeSpan(10, 0, 0),
-                ClosingHour = new TimeSpan(18, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 4,
-                Title = "Eastside Branch",
-                ManagerName = "Emily White",
-                OpenningHour = new TimeSpan(7, 0, 0),
-                ClosingHour = new TimeSpan(15, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 5,
-                Title = "Westside Branch",
-                ManagerName = "Michael Green",
-                OpenningHour = new TimeSpan(11, 0, 0),
-                ClosingHour = new TimeSpan(19, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 1,
-                Title = "Downtown Branch",
-                ManagerName = "John Doe",
-                OpenningHour = new TimeSpan(9, 0, 0),
-                ClosingHour = new TimeSpan(17, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 2,
-                Title = "Uptown Branch",
-                ManagerName = "Jane Smith",
-                OpenningHour = new TimeSpan(8, 30, 0),
-                ClosingHour = new TimeSpan(16, 30, 0)
-            },
-            new BranchesModel
-            {
-                Id = 3,
-                Title = "Midtown Branch",
-                ManagerName = "Robert Brown",
-                OpenningHour = new TimeSpan(10, 0, 0),
-                ClosingHour = new TimeSpan(18, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 4,
-                Title = "Eastside Branch",
-                ManagerName = "Emily White",
-                OpenningHour = new TimeSpan(7, 0, 0),
-                ClosingHour = new TimeSpan(15, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 5,
-                Title = "Westside Branch",
-                ManagerName = "Michael Green",
-                OpenningHour = new TimeSpan(11, 0, 0),
-                ClosingHour = new TimeSpan(19, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 1,
-                Title = "Downtown Branch",
-                ManagerName = "John Doe",
-                OpenningHour = new TimeSpan(9, 0, 0),
-                ClosingHour = new TimeSpan(17, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 2,
-                Title = "Uptown Branch",
-                ManagerName = "Jane Smith",
-                OpenningHour = new TimeSpan(8, 30, 0),
-                ClosingHour = new TimeSpan(16, 30, 0)
-            },
-            new BranchesModel
-            {
-                Id = 3,
-                Title = "Midtown Branch",
-                ManagerName = "Robert Brown",
-                OpenningHour = new TimeSpan(10, 0, 0),
-                ClosingHour = new TimeSpan(18, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 4,
-                Title = "Eastside Branch",
-                ManagerName = "Emily White",
-                OpenningHour = new TimeSpan(7, 0, 0),
-                ClosingHour = new TimeSpan(15, 0, 0)
-            },
-            new BranchesModel
-            {
-                Id = 5,
-                Title = "Westside Branch",
-                ManagerName = "Michael Green",
-                OpenningHour = new TimeSpan(11, 0, 0),
-                ClosingHour = new TimeSpan(19, 0, 0)
-            }
-        };
-        [HttpGet(nameof(ListBranches))]
-        public IActionResult ListBranches([FromQuery]int pageNumber = 1 )
-        {
-            int pageSize = 3;
-            var data = branches;
-            var totalPages = (data.Count + pageSize - 1) / pageSize;
-            var dto = new BranchDTO
-            {
-                data = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList(),
-                totalPages = totalPages
-            };
-            return View(dto);
-            
+            _restfulAPIService = restfulAPIService;
         }
-        //[HttpDelete(nameof(DeleteBranch))]
-        public IActionResult DeleteBranch([FromRoute]int Id)
+
+        public async Task<IActionResult> ListBranches([FromQuery] int pageNumber = 1)
         {
-            var elemtForRemove = branches.FirstOrDefault(c => c.Id == Id);
-            branches.Remove(elemtForRemove);
+            var pageSize = 3;
+            (string key, string value)[] queryParams = new[] { ("pageNumber", pageNumber.ToString()) };
+            var dta = await _restfulAPIService.Call(new RestfulAPICallingDTO
+            {
+                APIPath = DefualtData.getBranchesList,
+                Method = HttpMethod.Get,
+                queryParams = queryParams
+            });
+            var res = JsonConvert.DeserializeObject<ResponseResult>(dta);
+            Branches = JsonConvert.DeserializeObject<List<BranchesModel>>(res.data.ToString());
+            var totalPages = Math.Ceiling((double)res.totalData / (double)pageSize);
+            BranchDTO data = new BranchDTO
+            {
+                data = Branches,
+                totalPages = (int)totalPages
+            };
+            return View(data);
+        }
+        public async Task<IActionResult> DeleteBranch([FromRoute] int Id)
+        {
+            var dta = await _restfulAPIService.Call(new RestfulAPICallingDTO
+            {
+                APIPath = DefualtData.deleteBranch,
+                Method = HttpMethod.Delete,
+                Body = JsonConvert.SerializeObject(new DeleteBranch { Id = Id})
+            });
             return RedirectToAction(nameof(ListBranches));
+        }
+        public async Task<IActionResult> ModifyBranch(BranchesModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                // If the model is not valid, redisplay the form with validation errors
+                return View(request);
+            }
+            var dta = await _restfulAPIService.Call(new RestfulAPICallingDTO
+            {
+                APIPath = DefualtData.addBranch,
+                Method = HttpMethod.Post,
+                Body = JsonConvert.SerializeObject(request)
+            });
+
+            return RedirectToAction(nameof(ListBranches));
+        }
+
+        public async Task<IActionResult> AddBranch()
+        {
+            ViewData["IsAdd"] = true;
+            return View("BranchModify", new BranchesModel());
+        }
+        public async Task<IActionResult> EditBranch([FromRoute] int Id)
+        {
+            var branch = Branches.Find(c => c.Id == Id);
+            if(branch == null)
+                return RedirectToAction(nameof(ListBranches));
+
+            ViewData["IsAdd"] = false;
+            return View("BranchModify", branch);
+
         }
     }
 }

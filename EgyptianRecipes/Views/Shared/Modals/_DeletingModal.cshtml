@@ -1,18 +1,17 @@
-﻿<!-- Modal -->
-<div class="modal fade" id="DeletingModal" tabindex="-1" aria-labelledby="Deleting Modal" aria-hidden="true">
+﻿<!-- Deleting Modal -->
+<div class="modal fade" id="DeletingModal" tabindex="-1" aria-labelledby="DeletingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Deleting <span id="branchTitle"></span> Branch</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the branch?
+                Are you sure you want to delete the '<span id="branchTitleBody"></span>' branch?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-
-                <a class="page-link" asp-controller="Branches" asp-action="DeleteBranch" asp-route-Id="@deleteingObj.Id" method="delete">Yes</a>
+                <a id="confirmDeleteBtn" class="btn btn-danger" href="#">Yes</a>
             </div>
         </div>
     </div>

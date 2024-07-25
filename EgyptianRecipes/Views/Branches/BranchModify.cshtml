@@ -1,0 +1,54 @@
+﻿@model BranchesModel
+
+@{
+    if ((bool)ViewData["IsAdd"])
+    {
+        <h1>Add Branch</h1>
+    }
+    else
+    {
+        <h1>Edit '@Model.Title' Branch</h1>
+
+    }
+}
+<div class="container">
+    <form method="post" action="/Branches/ModifyBranch">
+
+        @using (Html.BeginForm("ModifyBranch", "Branch", FormMethod.Post, new { @id = "addBranchForm" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "col-form-label" })
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @id = "branch-title" })
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ManagerName, new { @class = "col-form-label" })
+                @Html.TextBoxFor(m => m.ManagerName, new { @class = "form-control", @id = "branch-ManagerName" })
+                <span asp-validation-for="ManagerName" class="text-danger"></span>
+
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.OpenningHour, new { @class = "col-form-label" })
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-5 mb-3 mb-sm-0">
+                            @Html.TextBoxFor(m => m.OpenningHour, new { @class = "form-control", @type = "time", @id = "openHour1" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ClosingHour, new { @class = "col-form-label" })
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-5 mb-3 mb-sm-0">
+                            @Html.TextBoxFor(m => m.ClosingHour, new { @class = "form-control", @type = "time", @id = "closeHour1" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-secondary" asp-action="ListBranches" asp-controller="Branches">Close</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        }
+    </form>
+</div>

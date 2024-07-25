@@ -1,75 +1,75 @@
 ﻿@model BranchDTO
 @{
     ViewData["Title"] = "Branches";
-    var currentPage = 1;
-    BranchesModel deleteingObj = new BranchesModel();
-    void SetDeletingObject(BranchesModel obj)
+    BranchesModel _obj = new BranchesModel();
+
+    void SelectedObject(BranchesModel obj)
     {
-        deleteingObj = obj;
+        _obj = obj;
     }
+
 }
 <h1>@ViewData["Title"]</h1>
+
 <div class=" d-flex justify-content-end">
-    <button type="button" class="btn btn-primary">Add Branch</button>
+    <a type="button" class="btn btn-primary" asp-action="AddBranch" asp-controller="Branches">Add Branch</a>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Manager Name</th>
-            <th scope="col">Opening Hour</th>
-            <th scope="col">Closing Hour</th>
-            <th scope="col">Working Hours</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var branch in Model.data)
-        {
-            <tr>
-                <th scope="row">@branch.Id</th>
-                <td>@branch.Title</td>
-                <td>@branch.ManagerName</td>
-                <td>@branch.OpenningHour</td>
-                <td>@branch.ClosingHour</td>
-                <td>@branch.WorkingHours</td>
-                <td>
-                    <button type="button" onclick="@{SetDeletingObject(branch);}" date-object="@branch" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletingModal">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        }
-        
-        
-    </tbody>
-</table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        @{
-            var page = 1;
-            for (int i = 0; i < Model.totalPages; i++)
-            {
-                <li class="page-item">
-                    <a class="page-link"  asp-controller="Branches" asp-action="ListBranches" asp-route-pageNumber="@(i + 1)">@(i + 1)</a>
-                </li>
-            }
-        }
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+@{
+    if (!Model.data.Any())
+    {
+        <p>There is no data to show!</p>
+
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Manager Name</th>
+                    <th scope="col">Opening Hour</th>
+                    <th scope="col">Closing Hour</th>
+                    <th scope="col">Working Hours</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var branch in Model.data)
+                {
+                    <tr>
+                        <th scope="row">@branch.Id</th>
+                        <td>@branch.Title</td>
+                        <td>@branch.ManagerName</td>
+                        <td>@branch.OpenningHour</td>
+                        <td>@branch.ClosingHour</td>
+                        <td>@branch.WorkingHours</td>
+                        <td>
+                            <!-- Edit Button -->
+                            <a type="button" class="btn btn-primary" asp-action="EditBranch" asp-controller="Branches" asp-route-Id="@branch.Id">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <!-- Delete Button -->
+                            <button type="button" data-id="@branch.Id" data-title="@branch.Title" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletingModal">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.Partial("_PaginationPartialView", new PaginationModel { TotalPages = Model.totalPages })
+
+    }
+    
+}
+
+@Html.Partial("Modals/_DeletingModal")
+
 
 
 
