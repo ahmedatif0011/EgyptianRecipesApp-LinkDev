@@ -116,10 +116,14 @@ namespace EgyptianRecipes.Controllers
             branches.sessionId = HttpContext.TraceIdentifier;
             if(!ModelState.IsValid)
             {
-                return PartialView("Modals/_BookingBranchModal", branches);
+                return View("BookingPage", branches);
             }
             BookedBranches.Add(branches);
-            return Json(new { success = true, redirectUrl = Url.Action("ListBranches", new { type = 2 }) });
+            return RedirectToAction(nameof(ListBranches));
+        }
+        public async Task<IActionResult> BookBranchPage([FromRoute] int Id)
+        {
+            return View("BookingPage", new BookingBranch { branchId = Id });
         }
     }
 }

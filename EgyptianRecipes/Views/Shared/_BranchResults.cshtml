@@ -64,26 +64,12 @@ else
                         {
                             <td>
                                 <!-- Book Button -->
-                                <button type="button"
-                                @(branch.isBooked ? "disabled" :"")
-                                        data-id="@branch.Id"
-                                        data-title="@branch.Title"
-                                        class="btn btn-success open-modal"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#BookingBranchModal">
-                                    @(branch.isBooked ? "Booked" : "Book")
-                                </button>
+                                <a type="button" 
+                                class="btn btn-primary"
+                                   asp-action="BookBranchPage"
+                                   asp-controller="Branches"
+                                   asp-route-Id="@branch.Id">@(branch.isBooked ? "Booked" : "Book")</a>
                             </td>
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                            <script>
-                                $(document).ready(function () {
-                                    $('.open-modal').on('click', function () {
-                                        var itemId = $(this).data('id');
-                                        $('#itemId').val(itemId); // Set the value of the hidden input
-                                        $('#BookingBranchModal').modal('show'); // Show the modal
-                                    });
-                                });
-                            </script>
                         }
                     }
 
